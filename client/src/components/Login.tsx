@@ -9,16 +9,17 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import Link from '@mui/material/Link';
 import axios from "axios"
 import Alert from '@mui/material/Alert';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const theme = createTheme();
 
 export default function LoginForm() {
-
+  const navigate = useNavigate()
   const [user, setUser] = React.useState({
     email: "",
     password: ""
@@ -32,14 +33,14 @@ export default function LoginForm() {
     e.preventDefault()
     axios.post("http://localhost:5000/api/login", user, { withCredentials: true })
       .then(res => {
-        console.log(res.data.msg)
+        localStorage.setItem("token", res.data.token)
+        console.log(res.data.user)
+        navigate('/dashboard')
       })
       .catch(err => {
         console.log(err.response.data)
         const errorResponse = err.response.data
         console.log(errorResponse);
-
-
         setErrMessage(errorResponse.msg)
 
       })
@@ -102,7 +103,7 @@ export default function LoginForm() {
                 autoComplete="current-password"
                 onChange={handleLoginChange}
               />
-              <Alert severity="error">{errMessage}</Alert>
+              {errMessage ? <Alert severity="error">{errMessage}</Alert> : null}
 
               <Button
                 type="submit"
@@ -114,7 +115,7 @@ export default function LoginForm() {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link to="/register" >
+                  <Link href="/register" >
                     Don't have an account? Sign Up
                   </Link>
                 </Grid>
