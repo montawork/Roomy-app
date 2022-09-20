@@ -76,6 +76,23 @@ const getOneUser = async (req, res) => {
   }
 };
 
+
+
+//GET COONECTED USER
+const getConnected = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.user.id } });
+    if (!user) {
+      res.status(400).json({ msg: 'User not exist' });
+    }
+    return res.json(user);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
 // DELETE USER
 const DestroyUser = async (req, res) => {
   try {
@@ -96,4 +113,6 @@ module.exports = {
   getAllUsers,
   getOneUser,
   DestroyUser,
+  getConnected
+
 };

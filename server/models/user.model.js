@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'user',
     {
+      userType:{
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
