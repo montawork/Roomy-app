@@ -37,6 +37,19 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          userValidation() {
+            if (this.phone.length < 8) {
+              throw new Error('Invalid phone number');
+            }
+          },
+        },
+      },
+
       password: {
         type: DataTypes.STRING,
         allowNull: true,

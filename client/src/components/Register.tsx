@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +13,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+
 function Copyright(props: any) {
   return (
     <Typography
@@ -22,10 +26,7 @@ function Copyright(props: any) {
       {...props}
     >
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
+      Roomy {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
@@ -34,14 +35,50 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 const Register = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+  const [userData, setUserData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const navigate = useNavigate();
+
+  const [errors, setErrors] = useState([]);
+
+  const handleChange = (e) => {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value,
     });
   };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    axios
+      .post('http://localhost:5000/api/register', userData, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+        navigate('/login');
+      })
+      .catch((err) => {
+        console.log('*********************', err.response.data.errors);
+        // const errorResponse = err.response.data.errors;
+        // const errs = [];
+        // for (const err of errorResponse) {
+        //   errs.push(err.message);
+        // }
+        // setErrors(errs);
+      });
+  };
+
+  //
+  const { firstName, lastName, email, phone, password, confirmPassword } =
+    userData;
 
   return (
     <ThemeProvider theme={theme}>
@@ -77,6 +114,8 @@ const Register = () => {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  onChange={handleChange}
+                  value={firstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -87,6 +126,8 @@ const Register = () => {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={handleChange}
+                  value={lastName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -97,16 +138,19 @@ const Register = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={handleChange}
+                  value={email}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  type="number"
                   required
                   fullWidth
                   id="phome"
                   label="Phone"
                   name="phone"
+                  onChange={handleChange}
+                  value={phone}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -118,17 +162,21 @@ const Register = () => {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={handleChange}
+                  value={password}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name="confirmPassword"
                   label="Confirm Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={handleChange}
+                  value={confirmPassword}
                 />
               </Grid>
             </Grid>
@@ -142,7 +190,7 @@ const Register = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
