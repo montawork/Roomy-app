@@ -10,7 +10,6 @@ function App() {
       <Router>
         <h1>Nav</h1>
         <Routes>
-          {/* <Route path="/register" element={<Register />} /> */}
           <Route path="" element={<Auth />}>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
