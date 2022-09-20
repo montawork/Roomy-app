@@ -6,39 +6,47 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import Link from '@mui/material/Link';
+import axios from "axios"
 import Alert from '@mui/material/Alert';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const theme = createTheme();
 
 export default function LoginForm() {
+  const navigate = useNavigate()
   const [user, setUser] = React.useState({
-    email: '',
-    password: '',
-  });
-  const [errMessage, setErrMessage] = React.useState();
-  const handleLoginChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-  const registerHandler = (e) => {
-    e.preventDefault();
-    axios
-      .post('http://localhost:5000/api/login', user, { withCredentials: true })
-      .then((res) => {
-        console.log(res.data.msg);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        const errorResponse = err.response.data;
-        console.log(errorResponse);
+    email: "",
+    password: ""
+  })
+  const [errMessage, setErrMessage] = React.useState()
+  const handleLoginChange = e => {
+    setUser({ ...user, [e.target.name]: e.target.value })
 
-        setErrMessage(errorResponse.msg);
-      });
-  };
+  }
+  const registerHandler = e => {
+    e.preventDefault()
+    axios.post("http://localhost:5000/api/login", user, { withCredentials: true })
+      .then(res => {
+        localStorage.setItem("token", res.data.token)
+        console.log(res.data.user)
+        navigate('/dashboard')
+      })
+      .catch(err => {
+        console.log(err.response.data)
+        const errorResponse = err.response.data
+        console.log(errorResponse);
+        setErrMessage(errorResponse.msg)
+
+      })
+
+  }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,9 +61,7 @@ export default function LoginForm() {
             backgroundImage: 'url(https://source.unsplash.com/random)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
-              t.palette.mode === 'light'
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -71,7 +77,7 @@ export default function LoginForm() {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              {/* <LockOutlinedIcon /> */}
+              <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
@@ -97,7 +103,7 @@ export default function LoginForm() {
                 autoComplete="current-password"
                 onChange={handleLoginChange}
               />
-              <Alert severity="error">{errMessage}</Alert>
+              {errMessage ? <Alert severity="error">{errMessage}</Alert> : null}
 
               <Button
                 type="submit"
@@ -109,7 +115,9 @@ export default function LoginForm() {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link to="/register">Don't have an account? Sign Up</Link>
+                  <Link href="/register" >
+                    Don't have an account? Sign Up
+                  </Link>
                 </Grid>
               </Grid>
             </Box>
