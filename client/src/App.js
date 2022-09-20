@@ -6,7 +6,7 @@ import Login from './components/Login.tsx';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Router>
         <h1>Nav</h1>
         <Routes>
