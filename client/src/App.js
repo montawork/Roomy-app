@@ -8,7 +8,7 @@ import PrivateRoute from "./private/PrivateRoutes.tsx"
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Router>
         <h1>Nav</h1>
         <Routes>

@@ -67,12 +67,12 @@ const Register = () => {
       })
       .catch((err) => {
         console.log('*********************', err.response.data.errors);
-        // const errorResponse = err.response.data.errors;
-        // const errs = [];
-        // for (const err of errorResponse) {
-        //   errs.push(err.message);
-        // }
-        // setErrors(errs);
+        const errorResponse = err.response.data.errors;
+        const errs = [];
+        for (const err of errorResponse) {
+          errs.push(err.message);
+        }
+        setErrors(errs);
       });
   };
 
@@ -98,6 +98,20 @@ const Register = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          {errors.map((err, index) => {
+            return (
+              <Alert
+                severity="error"
+                sx={{
+                  marginTop: 2,
+                  textAlign: 'left',
+                  width: '100%',
+                }}
+              >
+                {err}
+              </Alert>
+            );
+          })}
           <Box
             component="form"
             noValidate
