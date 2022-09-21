@@ -6,7 +6,7 @@ const {
   getAllUsers,
   getOneUser,
   DestroyUser,
-  getConnected
+  getConnected,
 } = require('../controllers/user.controller');
 
 module.exports = (app) => {
@@ -14,6 +14,6 @@ module.exports = (app) => {
   app.post('/api/login', login);
   app.get('/api/users', isAuth, getAllUsers);
   app.get('/api/users/:id', getOneUser);
-  app.get('/api/user/', getConnected);
+  app.get('/api/user/', isAuth, getConnected);
   app.delete('/api/users/:id', DestroyUser);
 };
