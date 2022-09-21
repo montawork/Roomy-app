@@ -29,7 +29,7 @@ export default function LoginForm() {
     setUser({ ...user, [e.target.name]: e.target.value })
 
   }
-  const registerHandler = e => {
+  const loginHandler = e => {
     e.preventDefault()
     axios.post("http://localhost:5000/api/login", user, { withCredentials: true })
       .then(res => {
@@ -82,7 +82,7 @@ export default function LoginForm() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" onSubmit={registerHandler} sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={loginHandler} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 fullWidth
