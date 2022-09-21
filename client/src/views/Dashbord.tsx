@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import Sidebar from '../components/Sidebar.tsx';
 
-const Dashbord = () => {
-    return (
-        <div>Dashbord</div>
-    )
-}
+const Dashbord = ({ currentUser, isLoading }) => {
+  return (
+    <>
+      <Sidebar currentUser={currentUser} isLoading={isLoading} />
+    </>
+  );
+};
 
-export default Dashbord
+export default Dashbord;
