@@ -1,7 +1,15 @@
-import React from 'react';
+
+import React from 'react'
+import Roome from './Roome.tsx'
 
 const RoomsList = () => {
-  return <></>;
-};
+    return (
+        <div >
+            <Roome />
+        </div>
+    )
+}
 
-export default RoomsList;
+export default RoomsList
+
+

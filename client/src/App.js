@@ -9,15 +9,22 @@ import Navbar from './components/Navbar.tsx';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import HomePage from './views/HomePage.tsx';
+
+import AllRooms from './views/AllRooms.tsx';
+import Footer from './components/Footer.tsx';
+import ContactPage from './views/ContactPage.tsx';
+import RoomDetail from './views/RoomDetail.tsx';
+
 import Profile from './views/Profile.tsx';
 import AddRoom from './views/AddRoom.tsx';
+
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => { 
     const config = {
       headers: {
         authorization: localStorage.getItem('token'),
@@ -42,6 +49,7 @@ function App() {
         <Navbar currentUser={refresh} />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="" element={<Auth />}>
             <Route
               path="/register"
@@ -77,7 +85,25 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/rooms"
+            element={
+              <PrivateRoute>
+                <AllRooms />
+              </PrivateRoute>
+            }
+          />
+           <Route
+            path="/room"
+            element={
+              <PrivateRoute>
+                <RoomDetail />
+              </PrivateRoute>
+            }
+          />
+          
         </Routes>
+        <Footer/>
       </Router>
     </div>
   );

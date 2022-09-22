@@ -1,0 +1,17 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    gap: 20%;
+}
+
+.copy {
+    display: flex;
+    justify-content: center;
+}
+
+
+.foot {
+    bottom: 0;
+    padding: 30px 0;
+
+}
