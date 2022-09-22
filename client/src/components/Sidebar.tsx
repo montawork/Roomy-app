@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/Sidebar.css';
 import Post from './Post.tsx';
+import UsersList from '../components/UsersList.tsx';
+import PostsList from './PostsList.tsx';
 
-const Sidebar = ({ currentUser, isLoading }) => {
-  console.log('******** => ', currentUser);
+const Sidebar = ({ currentUser, isLoading, refresh }) => {
+  const [component, setComponent] = useState('dashboard');
   return (
     <div>
       <nav className="menu">
@@ -21,13 +23,13 @@ const Sidebar = ({ currentUser, isLoading }) => {
         </header>
         <ul>
           <li className="icon-dashboard">
-            <span>Dashboard</span>
+            <span onClick={() => setComponent('dashboard')}>Dashboard</span>
           </li>
           <li className="icon-users">
-            <span>Users</span>
+            <span onClick={() => setComponent('users')}>Users</span>
           </li>
           <li className="icon-customers">
-            <span>Posts</span>
+            <span onClick={() => setComponent('posts')}>Posts</span>
           </li>
           <li className="icon-settings">
             <span>Messages</span>
@@ -37,9 +39,17 @@ const Sidebar = ({ currentUser, isLoading }) => {
 
       <main>
         <div className="helper">
-          <Post title="Free Room in Ariana" />
+          {component === 'dashboard' ? (
+            `Welcome ${currentUser.firstName}`
+          ) : component === 'users' ? (
+            <UsersList refresh={refresh} />
+          ) : component === 'posts' ? (
+            <PostsList />
+          ) : null}
+
+          {/* <Post title="Free Room in Ariana" />
           <Post title="Free Room in Bardo" />
-          <Post title="Free Room in Ghazala" />
+          <Post title="Free Room in Ghazala" /> */}
         </div>
       </main>
     </div>

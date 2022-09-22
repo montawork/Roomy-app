@@ -2,7 +2,7 @@ const db = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// create main Model
+// create USER Model
 const User = db.users;
 
 // main work
@@ -56,7 +56,11 @@ const login = async (req, res) => {
 // GET ALL USERS
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      where: {
+        userType: 0,
+      },
+    });
     return res.json(users);
   } catch (error) {
     console.log(error);
@@ -76,8 +80,6 @@ const getOneUser = async (req, res) => {
   }
 };
 
-
-
 //GET COONECTED USER
 const getConnected = async (req, res) => {
   try {
@@ -90,8 +92,6 @@ const getConnected = async (req, res) => {
     console.log(error);
   }
 };
-
-
 
 // DELETE USER
 const DestroyUser = async (req, res) => {
@@ -113,6 +113,5 @@ module.exports = {
   getAllUsers,
   getOneUser,
   DestroyUser,
-  getConnected
-
+  getConnected,
 };

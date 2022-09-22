@@ -30,6 +30,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.users = require('./user.model.js')(sequelize, DataTypes);
+db.rooms = require('./room.model.js')(sequelize, DataTypes);
 
 db.sequelize.sync({ force: false }).then(() => {
   console.log('yes re-sync done!');
@@ -37,14 +38,15 @@ db.sequelize.sync({ force: false }).then(() => {
 
 // 1 to Many Relation
 
-// db.products.hasMany(db.reviews, {
-//   foreignKey: 'product_id',
-//   as: 'review',
-// });
+db.users.hasMany(db.rooms, {
+  foreignKey: 'user_id',
+});
 
-// db.reviews.belongsTo(db.products, {
-//   foreignKey: 'product_id',
-//   as: 'product',
-// });
+db.rooms.belongsTo(db.users, {
+  foreignKey: 'user_id',
+});
+
+// db.users.hasMany(db.rooms);
+// db.rooms.belongsTo(db.users);
 
 module.exports = db;

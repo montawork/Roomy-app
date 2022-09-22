@@ -9,10 +9,15 @@ import Navbar from './components/Navbar.tsx';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import HomePage from './views/HomePage.tsx';
+
 import AllRooms from './views/AllRooms.tsx';
 import Footer from './components/Footer.tsx';
 import ContactPage from './views/ContactPage.tsx';
 import RoomDetail from './views/RoomDetail.tsx';
+
+import Profile from './views/Profile.tsx';
+import AddRoom from './views/AddRoom.tsx';
+
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -34,8 +39,6 @@ function App() {
       .catch((err) => console.log(err));
   }, [refresh]);
 
-  console.log('App => ', currentUser);
-
   const refresher = () => {
     setRefresh(!refresh);
   };
@@ -48,14 +51,37 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="" element={<Auth />}>
-            <Route path="/register" element={<Register />} />
+            <Route
+              path="/register"
+              element={<Register refresher={refresher} />}
+            />
             <Route path="/login" element={<Login refresher={refresher} />} />
           </Route>
           <Route
             path="/dashboard"
             element={
               <PrivateRoute>
-                <Dashbord currentUser={currentUser} isLoading={isLoading} />
+                <Dashbord
+                  currentUser={currentUser}
+                  isLoading={isLoading}
+                  refresh={refresh}
+                />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile currentUser={currentUser} isLoading={isLoading} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/add/room"
+            element={
+              <PrivateRoute>
+                <AddRoom />
               </PrivateRoute>
             }
           />
