@@ -9,6 +9,8 @@ import Navbar from './components/Navbar.tsx';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import HomePage from './views/HomePage.tsx';
+import Profile from './views/Profile.tsx';
+import AddRoom from './views/AddRoom.tsx';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -30,8 +32,6 @@ function App() {
       .catch((err) => console.log(err));
   }, [refresh]);
 
-  console.log('App => ', currentUser);
-
   const refresher = () => {
     setRefresh(!refresh);
   };
@@ -43,14 +43,37 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="" element={<Auth />}>
-            <Route path="/register" element={<Register />} />
+            <Route
+              path="/register"
+              element={<Register refresher={refresher} />}
+            />
             <Route path="/login" element={<Login refresher={refresher} />} />
           </Route>
           <Route
             path="/dashboard"
             element={
               <PrivateRoute>
-                <Dashbord currentUser={currentUser} isLoading={isLoading} />
+                <Dashbord
+                  currentUser={currentUser}
+                  isLoading={isLoading}
+                  refresh={refresh}
+                />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile currentUser={currentUser} isLoading={isLoading} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/add/room"
+            element={
+              <PrivateRoute>
+                <AddRoom />
               </PrivateRoute>
             }
           />

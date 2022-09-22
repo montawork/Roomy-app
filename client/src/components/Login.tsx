@@ -32,8 +32,14 @@ export default function LoginForm({ refresher }) {
       .post('http://localhost:5000/api/login', user, { withCredentials: true })
       .then((res) => {
         localStorage.setItem('token', res.data.token);
-        // console.log(res.data.user);
-        navigate('/dashboard');
+        // GET USER TYPE
+        const userType = res.data.user.userType;
+        if (userType === 1) {
+          navigate('/dashboard');
+        }
+        if (userType === 0) {
+          navigate('/profile');
+        }
         refresher();
       })
       .catch((err) => {

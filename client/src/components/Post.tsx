@@ -1,34 +1,88 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
+import CardContent from '@mui/material/CardContent';
+import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import { red } from '@mui/material/colors';
+import { Button } from '@mui/material';
 
-export default function Post({ title }) {
+import axios from 'axios';
+
+export default function Post({
+  title,
+  location,
+  region,
+  createdAt,
+  image,
+  id,
+  deleteFromDom,
+}) {
+  //   DELETE POST
+  const deletehandler = (id) => {
+    axios
+      .delete(`http://localhost:5000/api/rooms/${id}`)
+      .then(() => console.log('deleted'))
+      .catch((err) => console.log(err));
+  };
+
   return (
-    <Card sx={{ minWidth: 250 }}>
+    <Card
+      sx={{
+        width: 280,
+        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+        marginTop: '50px',
+        padding: '10px',
+      }}
+    >
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            R
+          </Avatar>
+        }
+        title={title}
+        subheader={createdAt.slice(0, 10)}
+      />
       <CardMedia
         component="img"
-        height="140"
-        image="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-        alt="green iguana"
+        height="194"
+        image="https://images.unsplash.com/photo-1663524789641-ac21f6ee2301?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0NHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"
+        alt="Paella dish"
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {title}
+        <Typography variant="body2" color="text.secondary">
+          {location}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {region}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Details</Button>
-        <Button size="small">Accept</Button>
-        <Button size="small">Remove</Button>
-      </CardActions>
+      <Button variant="contained" sx={{ maxWidth: '70px', marginRight: '4px' }}>
+        Details
+      </Button>
+      <Button
+        variant="contained"
+        color="success"
+        sx={{
+          maxWidth: '70px',
+          marginRight: '4px',
+        }}
+      >
+        Accept
+      </Button>
+      <Button
+        variant="outlined"
+        color="error"
+        sx={{ maxWidth: '70px' }}
+        onClick={() => {
+          deletehandler(id);
+          deleteFromDom(id);
+        }}
+      >
+        Delete
+      </Button>
     </Card>
   );
 }

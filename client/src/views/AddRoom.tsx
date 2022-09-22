@@ -32,14 +32,17 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const Register = ({ refresher }) => {
-  const [userData, setUserData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
+const AddRoom = () => {
+  const [roomData, setRoomData] = useState({
+    title: '',
+    location: '',
+    surface: '',
+    region: '',
+    nbrBeds: '',
+    nbrRoommates: '',
+    image: '',
+    description: '',
+    user_id: 4,
   });
 
   const navigate = useNavigate();
@@ -47,36 +50,54 @@ const Register = ({ refresher }) => {
   const [errors, setErrors] = useState([]);
 
   const handleChange = (e) => {
-    setUserData({
-      ...userData,
+    setRoomData({
+      ...roomData,
       [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const config = {
+      headers: {
+        authorization: localStorage.getItem('token'),
+      },
+    };
     axios
-      .post('http://localhost:5000/api/register', userData, {
-        withCredentials: true,
-      })
+      .post(
+        'http://localhost:5000/api/create/rooms',
+        roomData,
+        {
+          withCredentials: true,
+        },
+        config
+      )
       .then((res) => {
-        refresher();
-        navigate('/login');
+        navigate('/');
       })
       .catch((err) => {
-        // console.log('*********************', err.response.data.errors);
-        const errorResponse = err.response.data.errors;
-        const errs = [];
-        for (const err of errorResponse) {
-          errs.push(err.message);
-        }
-        setErrors(errs);
+        console.log('*********************', err.response.data.errors);
+        // const errorResponse = err.response.data.errors;
+        // const errs = [];
+        // for (const err of errorResponse) {
+        //   errs.push(err.message);
+        // }
+        // setErrors(errs);
       });
   };
 
   //
-  const { firstName, lastName, email, phone, password, confirmPassword } =
-    userData;
+  const {
+    title,
+    location,
+    surface,
+    region,
+    nbrBeds,
+    nbrRoommates,
+    image,
+    description,
+    user_id,
+  } = roomData;
 
   return (
     <ThemeProvider theme={theme}>
@@ -90,26 +111,10 @@ const Register = ({ refresher }) => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            {/* <LockOutlinedIcon /> */}
-          </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Add Room
           </Typography>
-          {errors.map((err, index) => {
-            return (
-              <Alert
-                severity="error"
-                sx={{
-                  marginTop: 2,
-                  textAlign: 'left',
-                  width: '100%',
-                }}
-              >
-                {err}
-              </Alert>
-            );
-          })}
+
           <Box
             component="form"
             noValidate
@@ -120,75 +125,103 @@ const Register = ({ refresher }) => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="title"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="title"
+                  label="Title"
                   autoFocus
                   onChange={handleChange}
-                  value={firstName}
+                  value={title}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
+                  id="location"
+                  label="Location"
+                  name="location"
                   autoComplete="family-name"
                   onChange={handleChange}
-                  value={lastName}
+                  value={location}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="surface"
+                  label="Surface"
+                  name="surface"
+                  autoComplete="surface"
                   onChange={handleChange}
-                  value={email}
+                  value={surface}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  id="phome"
-                  label="Phone"
-                  name="phone"
+                  id="region"
+                  label="Region"
+                  name="region"
                   onChange={handleChange}
-                  value={phone}
+                  value={region}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
+                  name="nbrBeds"
+                  label="numbre of Beds"
+                  id="nbrBeds"
+                  autoComplete="new-nbrBeds"
                   onChange={handleChange}
-                  value={password}
+                  value={nbrBeds}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
+                  name="nbrRoommates"
+                  label="numbre of Roommates"
+                  id="nbrRoommates"
+                  autoComplete="new-nbrRoommates"
                   onChange={handleChange}
-                  value={confirmPassword}
+                  value={nbrRoommates}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="image"
+                  label="Image"
+                  id="image"
+                  autoComplete="new-image"
+                  onChange={handleChange}
+                  value={image}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="description"
+                  label="description"
+                  id="description"
+                  autoComplete="new-description"
+                  onChange={handleChange}
+                  value={description}
+                />
+                <input
+                  type="hidden"
+                  name="user_id"
+                  value={user_id}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
@@ -198,15 +231,8 @@ const Register = ({ refresher }) => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Add Room
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
@@ -215,4 +241,4 @@ const Register = ({ refresher }) => {
   );
 };
 
-export default Register;
+export default AddRoom;
