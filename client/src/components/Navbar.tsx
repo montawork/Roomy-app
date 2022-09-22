@@ -131,15 +131,30 @@ const Navbar = ({ refresh }) => {
             Roomy
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button
+
+              onClick={() => navigate('/')}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Home
+            </Button>
+            <Button
+
+              onClick={() => navigate('/about')}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              About
+            </Button>
+            <Button
+
+              onClick={() => navigate('/contact')}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Contact
+            </Button>
+            {/* {pages.map((page) => (
+              
+            ))} */}
           </Box>
           {token ? (
             <Box sx={{ flexGrow: 0 }}>
