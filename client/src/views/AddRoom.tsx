@@ -32,8 +32,8 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
+
 const AddRoom = ({ userID }) => {
-  //   console.log(userID);
 
   const [roomData, setRoomData] = useState({
     title: '',
@@ -75,16 +75,16 @@ const AddRoom = ({ userID }) => {
         config
       )
       .then((res) => {
-        navigate('/');
+        navigate('/rooms');
       })
       .catch((err) => {
         console.log('*********************', err.response.data.errors);
-        // const errorResponse = err.response.data.errors;
-        // const errs = [];
-        // for (const err of errorResponse) {
-        //   errs.push(err.message);
-        // }
-        // setErrors(errs);
+        const errorResponse = err.response.data.errors;
+        const errs = [];
+        for (const err of errorResponse) {
+          errs.push(err.message);
+        }
+        setErrors(errs);
       });
   };
 
@@ -116,7 +116,20 @@ const AddRoom = ({ userID }) => {
           <Typography component="h1" variant="h5">
             Add Room
           </Typography>
-
+          {errors.map((err, index) => {
+            return (
+              <Alert
+                severity="error"
+                sx={{
+                  marginTop: 2,
+                  textAlign: 'left',
+                  width: '100%',
+                }}
+              >
+                {err}
+              </Alert>
+            );
+          })}
           <Box
             component="form"
             noValidate
@@ -142,7 +155,7 @@ const AddRoom = ({ userID }) => {
                   required
                   fullWidth
                   id="location"
-                  label="Location"
+                  label="City"
                   name="location"
                   autoComplete="family-name"
                   onChange={handleChange}
@@ -222,8 +235,10 @@ const AddRoom = ({ userID }) => {
                 <input
                   type="hidden"
                   name="user_id"
+
                   //   value={userID}
                   //   onChange={handleChange}
+
                 />
               </Grid>
             </Grid>

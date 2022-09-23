@@ -2,10 +2,10 @@
 import React from 'react'
 import Roome from './Roome.tsx'
 
-const RoomsList = () => {
+const RoomsList = ({ room }) => {
     return (
         <div >
-            <Roome />
+            <Roome room={room} />
         </div>
     )
 }
