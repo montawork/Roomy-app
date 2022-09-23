@@ -5,6 +5,7 @@ import Post from './Post.tsx';
 const PostsList = () => {
   const [rooms, setRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [refresh, setRefrech] = useState(false);
 
   //   GET ALL POSTS
   useEffect(() => {
@@ -16,16 +17,14 @@ const PostsList = () => {
     axios
       .get('http://localhost:5000/api/rooms', config)
       .then((res) => {
-        console.log(res.data);
-        setRooms(res.data);
-        console.log(res.data);
+        setRooms(res.data.reverse());
 
         setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [refresh]);
 
   //   DELETE FROM DOM
   const deleteFromDom = (id) => {
@@ -35,7 +34,15 @@ const PostsList = () => {
   return (
     <>
       {rooms.map((room, index) => {
-        return <Post key={index} {...room} deleteFromDom={deleteFromDom} />;
+        return (
+          <Post
+            key={index}
+            {...room}
+            deleteFromDom={deleteFromDom}
+            setRefrech={setRefrech}
+            refresh={refresh}
+          />
+        );
       })}
     </>
   );

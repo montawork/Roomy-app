@@ -90,6 +90,10 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      isAccepted: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
     },
     {}
   );

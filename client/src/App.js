@@ -17,14 +17,14 @@ import RoomDetail from './views/RoomDetail.tsx';
 
 import Profile from './views/Profile.tsx';
 import AddRoom from './views/AddRoom.tsx';
-
+import EditRoom from './views/EditRoom.tsx';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => { 
+  useEffect(() => {
     const config = {
       headers: {
         authorization: localStorage.getItem('token'),
@@ -81,7 +81,7 @@ function App() {
             path="/add/room"
             element={
               <PrivateRoute>
-                <AddRoom />
+                <AddRoom userID={currentUser.id} />
               </PrivateRoute>
             }
           />
@@ -93,17 +93,17 @@ function App() {
               </PrivateRoute>
             }
           />
-           <Route
-            path="/room"
+          <Route
+            path="/room/details/:id"
             element={
               <PrivateRoute>
                 <RoomDetail />
               </PrivateRoute>
             }
           />
-          
+          <Route path="/room/edit/:id" element={<EditRoom />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </Router>
     </div>
   );

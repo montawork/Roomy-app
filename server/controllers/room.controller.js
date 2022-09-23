@@ -72,10 +72,28 @@ const DestroyRoom = async (req, res) => {
   }
 };
 
+// ACCEPT POST FROM ADMIN
+const acceptPost = async (req, res) => {
+  try {
+    await Room.update(
+      { isAccepted: 1 },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+    res.json({ msg: 'Accepted' });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createRoom,
   getAllRooms,
   getOneRoom,
   DestroyRoom,
   editRoom,
+  acceptPost,
 };

@@ -4,6 +4,7 @@ const {
   getOneRoom,
   DestroyRoom,
   editRoom,
+  acceptPost,
 } = require('../controllers/room.controller');
 
 module.exports = (app) => {
@@ -12,4 +13,5 @@ module.exports = (app) => {
   app.get('/api/rooms/:id', getOneRoom);
   app.put('/api/rooms/:id', editRoom);
   app.delete('/api/rooms/:id', DestroyRoom);
+  app.put('/api/rooms/accept/:id', acceptPost);
 };

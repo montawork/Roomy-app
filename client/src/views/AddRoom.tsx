@@ -32,7 +32,9 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const AddRoom = () => {
+const AddRoom = ({ userID }) => {
+  //   console.log(userID);
+
   const [roomData, setRoomData] = useState({
     title: '',
     location: '',
@@ -42,7 +44,7 @@ const AddRoom = () => {
     nbrRoommates: '',
     image: '',
     description: '',
-    user_id: 4,
+    user_id: userID,
   });
 
   const navigate = useNavigate();
@@ -220,8 +222,8 @@ const AddRoom = () => {
                 <input
                   type="hidden"
                   name="user_id"
-                  value={user_id}
-                  onChange={handleChange}
+                  //   value={userID}
+                  //   onChange={handleChange}
                 />
               </Grid>
             </Grid>
