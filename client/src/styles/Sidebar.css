@@ -25,6 +25,7 @@ main .helper {
   font-size: 2em;
   font-weight: bold;
   display: flex;
+
   gap: 30px;
   flex-wrap: wrap;
 }

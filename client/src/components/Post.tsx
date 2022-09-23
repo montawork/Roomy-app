@@ -9,6 +9,7 @@ import { red } from '@mui/material/colors';
 import { Button } from '@mui/material';
 
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Post({
   title,
@@ -18,13 +19,29 @@ export default function Post({
   image,
   id,
   deleteFromDom,
+  isAccepted,
+  setRefrech,
+  refresh,
 }) {
+  const navigate = useNavigate();
   //   DELETE POST
   const deletehandler = (id) => {
     axios
       .delete(`http://localhost:5000/api/rooms/${id}`)
       .then(() => console.log('deleted'))
       .catch((err) => console.log(err));
+  };
+
+  //   ACCEPT POST BY THE ADMIN
+  const acceptPost = (id) => {
+    axios
+      .put(`http://localhost:5000/api/rooms/accept/${id}`, {})
+      .then(() => {
+        setRefrech(!refresh);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -59,19 +76,36 @@ export default function Post({
           {region}
         </Typography>
       </CardContent>
-      <Button variant="contained" sx={{ maxWidth: '70px', marginRight: '4px' }}>
+      <Button
+        onClick={() => {
+          navigate(`/room/details/${id}`);
+        }}
+        variant="contained"
+        sx={{ maxWidth: '70px', marginRight: '4px' }}
+      >
         Details
       </Button>
-      <Button
-        variant="contained"
-        color="success"
-        sx={{
-          maxWidth: '70px',
-          marginRight: '4px',
-        }}
-      >
-        Accept
-      </Button>
+      {isAccepted ? (
+        <span
+          style={{ fontSize: '1.1rem', marginRight: '4px', color: '#2e7d32' }}
+        >
+          Accepted ✔
+        </span>
+      ) : (
+        <Button
+          onClick={() => {
+            acceptPost(id);
+          }}
+          variant="contained"
+          color="success"
+          sx={{
+            maxWidth: '70px',
+            marginRight: '4px',
+          }}
+        >
+          Accept
+        </Button>
+      )}
       <Button
         variant="outlined"
         color="error"
