@@ -13,7 +13,7 @@ import { Button } from '@mui/material';
 
 
 
-export default function Roome({ room }) {
+export default function RoomeCard({ room }) {
 
     const { title, createdAt, location, region } = room
 

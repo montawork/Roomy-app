@@ -46,7 +46,7 @@ function App() {
   return (
     <div>
       <Router>
-        <Navbar currentUser={refresh} />
+        <Navbar currentUser={currentUser} />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -81,7 +81,7 @@ function App() {
             path="/add/room"
             element={
               <PrivateRoute>
-                <AddRoom />
+                <AddRoom currentUser={currentUser}/>
               </PrivateRoute>
             }
           />
