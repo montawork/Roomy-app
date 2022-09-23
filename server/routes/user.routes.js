@@ -7,6 +7,8 @@ const {
   getOneUser,
   DestroyUser,
   getConnected,
+ 
+  
 } = require('../controllers/user.controller');
 
 module.exports = (app) => {

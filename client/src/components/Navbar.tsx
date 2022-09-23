@@ -18,7 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const pages = ['Home', 'About', 'Contact'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
-const Navbar = ({ refresh }) => {
+const Navbar = ({ currentUser }) => {
   // TOKEN
   const token = localStorage.getItem('token');
 
@@ -72,7 +72,7 @@ const Navbar = ({ refresh }) => {
               textDecoration: 'none',
             }}
           >
-            Rommy
+            Roomy
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -128,36 +128,39 @@ const Navbar = ({ refresh }) => {
               textDecoration: 'none',
             }}
           >
-            Roomy
+            Roomyy
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button
+          {
+            currentUser.userType === 0 ?
+              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                <Button
 
-              onClick={() => navigate('/')}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              Home
-            </Button>
-            <Button
+                  onClick={() => navigate('/rooms')}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  Home
+                </Button>
+                <Button
 
-              onClick={() => navigate('/about')}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              About
-            </Button>
-            <Button
+                  onClick={() => navigate('/about')}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  About
+                </Button>
+                <Button
 
-              onClick={() => navigate('/contact')}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              Contact
-            </Button>
-            {/* {pages.map((page) => (
+                  onClick={() => navigate('/contact')}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  Contact
+                </Button>
+                {/* {pages.map((page) => (
               
             ))} */}
-          </Box>
+              </Box> : null
+          }
           {token ? (
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -180,7 +183,7 @@ const Navbar = ({ refresh }) => {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Profile</Typography>
+                  <Typography textAlign="center" onClick={() => navigate('/profile')}>Profile</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">Dashboard</Typography>

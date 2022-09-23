@@ -28,12 +28,28 @@ const getAllRooms = async (req, res) => {
   }
 };
 
+
+// GET CURRENT USER ROOMES
+// const getRoomsUser = async (req, res) => {
+//   try {
+//     const rooms = await Room.findAll({
+//       where:{
+//         id:req.params.id
+//       },
+//       include: User,
+//     });
+//     return res.json(rooms);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 // GET ONE ROOM BY ID
 const getOneRoom = async (req, res) => {
   try {
     const room = await Room.findOne({
       where: { id: req.params.id },
-      include: User,
+      
     });
     if (!room) {
       res.status(400).json({ msg: 'Room not exist' });
@@ -51,6 +67,7 @@ const editRoom = async (req, res) => {
       where: {
         id: req.params.id,
       },
+      include: User,
     });
     res.json(updatedRoom);
   } catch (error) {
@@ -78,4 +95,5 @@ module.exports = {
   getOneRoom,
   DestroyRoom,
   editRoom,
+ 
 };

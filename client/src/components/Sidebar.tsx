@@ -7,7 +7,7 @@ import PostsList from './PostsList.tsx';
 const Sidebar = ({ currentUser, isLoading, refresh }) => {
   const [component, setComponent] = useState('dashboard');
   return (
-    <div>
+    <div className='dash'>
       <nav className="menu">
         <div className="smartphone-menu-trigger"></div>
         <header className="avatar">
@@ -40,7 +40,7 @@ const Sidebar = ({ currentUser, isLoading, refresh }) => {
       <main>
         <div className="helper">
           {component === 'dashboard' ? (
-            `Welcome ${currentUser.firstName}`
+            <h1 style={{ margin: "100px auto" }}>Welcome Back {currentUser.firstName}</h1>
           ) : component === 'users' ? (
             <UsersList refresh={refresh} />
           ) : component === 'posts' ? (

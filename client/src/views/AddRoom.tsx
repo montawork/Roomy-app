@@ -32,7 +32,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-const AddRoom = () => {
+const AddRoom = ({ currentUser }) => {
   const [roomData, setRoomData] = useState({
     title: '',
     location: '',
@@ -42,7 +42,7 @@ const AddRoom = () => {
     nbrRoommates: '',
     image: '',
     description: '',
-    user_id: 4,
+    user_id: currentUser.id,
   });
 
   const navigate = useNavigate();
@@ -73,16 +73,16 @@ const AddRoom = () => {
         config
       )
       .then((res) => {
-        navigate('/');
+        navigate('/rooms');
       })
       .catch((err) => {
         console.log('*********************', err.response.data.errors);
-        // const errorResponse = err.response.data.errors;
-        // const errs = [];
-        // for (const err of errorResponse) {
-        //   errs.push(err.message);
-        // }
-        // setErrors(errs);
+        const errorResponse = err.response.data.errors;
+        const errs = [];
+        for (const err of errorResponse) {
+          errs.push(err.message);
+        }
+        setErrors(errs);
       });
   };
 
@@ -114,7 +114,20 @@ const AddRoom = () => {
           <Typography component="h1" variant="h5">
             Add Room
           </Typography>
-
+          {errors.map((err, index) => {
+            return (
+              <Alert
+                severity="error"
+                sx={{
+                  marginTop: 2,
+                  textAlign: 'left',
+                  width: '100%',
+                }}
+              >
+                {err}
+              </Alert>
+            );
+          })}
           <Box
             component="form"
             noValidate
@@ -140,7 +153,7 @@ const AddRoom = () => {
                   required
                   fullWidth
                   id="location"
-                  label="Location"
+                  label="City"
                   name="location"
                   autoComplete="family-name"
                   onChange={handleChange}
@@ -220,7 +233,7 @@ const AddRoom = () => {
                 <input
                   type="hidden"
                   name="user_id"
-                  value={user_id}
+                  value={currentUser.id}
                   onChange={handleChange}
                 />
               </Grid>
