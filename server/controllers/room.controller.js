@@ -28,7 +28,6 @@ const getAllRooms = async (req, res) => {
   }
 };
 
-
 // GET CURRENT USER ROOMES
 // const getRoomsUser = async (req, res) => {
 //   try {
@@ -49,7 +48,8 @@ const getOneRoom = async (req, res) => {
   try {
     const room = await Room.findOne({
       where: { id: req.params.id },
-      
+
+      include: User,
     });
     if (!room) {
       res.status(400).json({ msg: 'Room not exist' });

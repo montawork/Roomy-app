@@ -27,6 +27,7 @@ const Navbar = ({ currentUser }) => {
   // LOGOUT HANDLER
   const logoutHandler = () => {
     localStorage.removeItem('token');
+
     navigate('/login');
   };
 
@@ -130,37 +131,33 @@ const Navbar = ({ currentUser }) => {
           >
             Roomyy
           </Typography>
-          {
-            currentUser.userType === 0 ?
-              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                <Button
-
-                  onClick={() => navigate('/rooms')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  Home
-                </Button>
-                <Button
-
-                  onClick={() => navigate('/about')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  About
-                </Button>
-                <Button
-
-                  onClick={() => navigate('/contact')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  Contact
-                </Button>
-                {/* {pages.map((page) => (
+          {currentUser.userType !== 1 || !currentUser ? (
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              <Button
+                onClick={() => navigate('/rooms')}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Home
+              </Button>
+              <Button
+                onClick={() => navigate('/about')}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                About
+              </Button>
+              <Button
+                onClick={() => navigate('/contact')}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Contact
+              </Button>
+              {/* {pages.map((page) => (
               
             ))} */}
-              </Box> : null
-          }
+            </Box>
+          ) : null}
           {token ? (
-            <Box sx={{ flexGrow: 0, }}>
+            <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -183,10 +180,24 @@ const Navbar = ({ currentUser }) => {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" onClick={() => navigate('/profile')}>Profile</Typography>
+                  {currentUser.userType === 0 && (
+                    <Typography
+                      textAlign="center"
+                      onClick={() => navigate('/profile')}
+                    >
+                      Profile
+                    </Typography>
+                  )}
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Dashboard</Typography>
+                  {currentUser.userType === 1 && (
+                    <Typography
+                      textAlign="center"
+                      onClick={() => navigate('/dashboard')}
+                    >
+                      Dashboard
+                    </Typography>
+                  )}
                 </MenuItem>
                 <MenuItem
                   onClick={() => {

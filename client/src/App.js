@@ -81,9 +81,7 @@ function App() {
             path="/add/room"
             element={
               <PrivateRoute>
-
                 <AddRoom userID={currentUser.id} />
-
               </PrivateRoute>
             }
           />
@@ -99,7 +97,7 @@ function App() {
             path="/room/details/:id"
             element={
               <PrivateRoute>
-                <RoomDetail />
+                <RoomDetail currentUser={currentUser} />
               </PrivateRoute>
             }
           />

@@ -62,12 +62,7 @@ export default function Post({
         title={title}
         subheader={createdAt.slice(0, 10)}
       />
-      <CardMedia
-        component="img"
-        height="194"
-        image="https://images.unsplash.com/photo-1663524789641-ac21f6ee2301?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0NHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"
-        alt="Paella dish"
-      />
+      <CardMedia component="img" height="194" image={image} alt="Paella dish" />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {location}
